@@ -126,24 +126,60 @@ class Solution {
     ArrayList<Integer> postOrder(Node root) {
         // Your code goes here
     ArrayList<Integer> list = new ArrayList<>();
-    Stack<Node> s = new Stack<>();
-    if(root==null){
+    Stack<Node> s1 = new Stack<>();
+    Stack<Node> s2 = new Stack<>();
+    if(root == null){
         return list;
     }
-    s.push(root);
-    while(!s.isEmpty()){
-        Node temp = s.peek();
+    s1.push(root);
+    while(!s1.isEmpty()){
+        Node temp = s1.pop();
+        s2.push(temp);
         if(temp.left!=null){
-            s.push(temp.left);
-            temp.left= null;
-        }else if(temp.right!=null){
-            s.push(temp.right);
-            temp.right = null;
-        }else{
-            s.pop();
-            list.add(temp.data);
+            s1.push(temp.left);
+            temp.left = null;
         }
+        if(temp.right!=null){
+            s1.push(temp.right);
+            temp.right = null;
+        }
+    }
+    while(!s2.isEmpty()){
+        Node temp = s2.pop();
+        list.add(temp.data);
     }
     return list;
     }
 }
+
+
+
+// class Solution {
+//     // Function to return a list containing the postorder traversal of the tree.
+//     ArrayList<Integer> postOrder(Node root) {
+//         // Your code goes here
+//     ArrayList<Integer> list = new ArrayList<>();
+//     Stack<Node> s = new Stack<>();
+//     if(root==null){
+//         return list;
+//     }
+//     s.push(root);
+//     while(!s.isEmpty()){
+//         Node temp = s.peek();
+//         if(temp.left!=null){
+//             s.push(temp.left);
+//             temp.left= null;
+//         }else if(temp.right!=null){
+//             s.push(temp.right);
+//             temp.right = null;
+//         }else{
+//             s.pop();
+//             list.add(temp.data);
+//         }
+//     }
+//     return list;
+//     }
+// }
+
+
+
