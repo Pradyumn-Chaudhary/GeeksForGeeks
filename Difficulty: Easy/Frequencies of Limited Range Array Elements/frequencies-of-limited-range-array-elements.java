@@ -46,10 +46,8 @@ class Solution {
             map.put(i,0);
         }
         for(int i = 0;i<arr.length;i++){
-            if(arr[i]>P){
-                map.put(arr[i],0);
-            }else{
-            map.put(arr[i],map.getOrDefault(arr[i],0)+1);
+            if(arr[i]<=P){
+             map.put(arr[i],map.getOrDefault(arr[i],0)+1);   
             }
         }
         for(int i = 0;i<P&&i<N;i++){
