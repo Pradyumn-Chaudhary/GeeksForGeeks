@@ -27,7 +27,7 @@ class GFG {
 }
 // } Driver Code Ends
 
-
+ 
 class Solution {
     // Function is to check whether two strings are anagram of each other or not.
     public static boolean areAnagrams(String s1, String s2) {
