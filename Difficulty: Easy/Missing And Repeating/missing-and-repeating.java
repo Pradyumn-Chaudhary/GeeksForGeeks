@@ -37,24 +37,23 @@ class Solution {
     // Function to find two elements in array
     ArrayList<Integer> findTwoElement(int arr[]) {
         // code here
-        int n = arr.length;
-        int hash[] = new int[n+1];
-        int missing = -1,repeat = -1;
-        for(int i = 0;i<n;i++){
-            if(hash[arr[i]] == 1){
-                repeat = arr[i];
-            }
-            hash[arr[i]] = 1;
+        long S1 = 0, Sn1 = 0, S2 = 0, Sn2 = 0;
+        int repeat = -1, missing = -1;
+        for(int i = 0;i<arr.length;i++){
+            S1 += arr[i];
+            Sn1 += i+1;
+            
+            S2 += (arr[i]*arr[i]);
+            Sn2 += ((i+1)*(i+1));
         }
-        for(int i = 1;i<n+1;i++){
-            if(hash[i]==0){
-                missing = i;
-                break;
-            }
-        }
+        long xy = S1 - Sn1;
+        long xy2 = S2 - Sn2;
+        long XY = xy2/xy;
+        repeat = (int)((xy + XY)/2);
+        missing = (int)(XY - repeat);
         ArrayList<Integer> list = new ArrayList<>();
         list.add(repeat);
         list.add(missing);
-       return list;
+        return list;
     }
 }
