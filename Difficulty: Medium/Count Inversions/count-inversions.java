@@ -21,62 +21,46 @@ class Sorting {
 // User function Template for Java
 
 class Solution {
-    // Function to count inversions in the array
-    static int mergeAndCount(int[] arr, int[] temp, int left, int mid, int right) {
-        int i = left;    // Left subarray index
-        int j = mid + 1; // Right subarray index
-        int k = left;    // Merged array index
-        int invCount = 0;
+    // Function to count inversions in the array.
+    public static int divide(int[] arr, int si, int ei) {
+        int count = 0;
+        if (si < ei) {
+            int mid = si + (ei - si) / 2;
+            count += divide(arr, si, mid); // Count inversions in left half
+            count += divide(arr, mid + 1, ei); // Count inversions in right half
+            count += conquer(arr, si, mid, ei); // Count cross inversions
+        }
+        return count;
+    }
+    
+    public static int conquer(int[] arr, int si, int mid, int ei) {
+        int[] conquered = new int[ei - si + 1];
+        int idx = 0, idx0 = si, idx1 = mid + 1;
+        int count = 0;
 
-        // Merge two sorted subarrays
-        while (i <= mid && j <= right) {
-            if (arr[i] <= arr[j]) {
-                temp[k++] = arr[i++];
+        while (idx0 <= mid && idx1 <= ei) {
+            if (arr[idx0] <= arr[idx1]) {
+                conquered[idx++] = arr[idx0++];
             } else {
-                temp[k++] = arr[j++];
-                // All remaining elements in the left subarray
-                // are greater than arr[j]
-                invCount += (mid - i + 1);
+                conquered[idx++] = arr[idx1++];
+                count += (mid - idx0 + 1); // Counting inversions
             }
         }
-
-        // Copy remaining elements of the left subarray
-        while (i <= mid)
-            temp[k++] = arr[i++];
-
-        // Copy remaining elements of the right subarray
-        while (j <= right)
-            temp[k++] = arr[j++];
-
-        // Copy merged elements back to the original array
-        for (i = left; i <= right; i++)
-            arr[i] = temp[i];
-
-        return invCount;
-    }
-
-    static int mergeSortAndCount(int[] arr, int[] temp, int left, int right) {
-        int invCount = 0;
-
-        if (left < right) {
-            int mid = left + (right - left) / 2;
-
-            // Count inversions in the left subarray
-            invCount += mergeSortAndCount(arr, temp, left, mid);
-
-            // Count inversions in the right subarray
-            invCount += mergeSortAndCount(arr, temp, mid + 1, right);
-
-            // Count split inversions
-            invCount += mergeAndCount(arr, temp, left, mid, right);
+        
+        while (idx0 <= mid) {
+            conquered[idx++] = arr[idx0++];
         }
-
-        return invCount;
-    }
-
-    static int inversionCount(int[] arr) {
-        int n = arr.length;
-        int[] temp = new int[n];
-        return mergeSortAndCount(arr, temp, 0, n - 1);
+        while (idx1 <= ei) {
+            conquered[idx++] = arr[idx1++];
+        }
+        
+        // Copy the sorted subarray back to the original array
+        System.arraycopy(conquered, 0, arr, si, conquered.length);
+        
+        return count;
+    } 
+    
+    static int inversionCount(int arr[]) {
+        return divide(arr, 0, arr.length - 1);
     }
 }
