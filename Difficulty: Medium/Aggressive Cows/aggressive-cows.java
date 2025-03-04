@@ -49,7 +49,7 @@ class Solution {
     public static int aggressiveCows(int[] stalls, int k) {
         // code here
         Arrays.sort(stalls);
-        long low = 1, high = (long)stalls[stalls.length-1];
+        long low = 1, high = (long)stalls[stalls.length-1]-stalls[0];
         while(low<=high){
             long mid = (high + low) / 2;
             boolean isPossible = checkPossible(stalls, mid, k);
