@@ -39,22 +39,19 @@ class GFG {
 class Solution {
     public int kthElement(int a[], int b[], int k) {
         // code here
-        ArrayList<Integer> list = new ArrayList<>();
-        int i = 0;
-        while(i<a.length && i<b.length){
-            list.add(a[i]);
-            list.add(b[i]);
-            i++;
+        int idx = 0, idx1 = 0, idx2 = 0;
+        int merged[] = new int[a.length + b.length]; 
+        while(idx1 < a.length && idx2 < b.length){
+            if(a[idx1] < b[idx2])
+            merged[idx++] = a[idx1++];
+            else
+            merged[idx++] = b[idx2++];
         }
-        while(i<a.length){
-            list.add(a[i]);
-            i++;
-        }
-        while(i<b.length){
-            list.add(b[i]);
-            i++;
-        }
-        Collections.sort(list);
-        return list.get(k-1);
+        while(idx1 < a.length)
+        merged[idx++] = a[idx1++];
+        while(idx2 < b.length)
+        merged[idx++] = b[idx2++];
+        
+        return merged[k-1];
     }
 }
