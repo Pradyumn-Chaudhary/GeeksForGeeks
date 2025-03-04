@@ -30,44 +30,48 @@ class GFG {
 
 
 
+
+
 //Back-end complete function Template for Java
 
 class Solution {
-    public static int findPages(int[] arr, int k) {
-        int n = arr.length;
-        if (k > n) return -1;
-        
-        int low = arr[0], high = 0;
-        for (int i = 0; i < n; i++) {
-            low = Math.max(low, arr[i]);
-            high += arr[i];
+    public static boolean check(int[] arr, long mid, int k){
+        int student = 1;
+        int count = 0;
+        for(int e : arr){
+            count += e;
+            if(count > mid){
+                count = e;
+                student++;
+            }
         }
-        
-        int result = -1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (isPossible(arr, n, k, mid)) {
-                result = mid;
+        if(student > k){
+            return false;
+        }
+        return true;
+    }
+    
+    public static int findPages(int[] arr, int k) {
+        // code here
+        if(arr.length < k){
+            return -1;
+        }
+        long low = Integer.MIN_VALUE;
+        long high = 0;
+        for(int e : arr){
+            if(e > low)
+            low = e;
+            high += (long)e;
+        }
+        while(low <= high){
+            long mid = (low + high) / 2;
+            boolean isPossible = check(arr,mid,k);
+            if(isPossible){
                 high = mid - 1;
-            } else {
+            }else{
                 low = mid + 1;
             }
         }
-        return result;
-    }
-    
-    private static boolean isPossible(int[] arr, int n, int k, int maxPages) {
-        int students = 1, sum = 0;
-        for (int i = 0; i < n; i++) {
-            if (arr[i] > maxPages) return false;
-            if (sum + arr[i] > maxPages) {
-                students++;
-                sum = arr[i];
-                if (students > k) return false;
-            } else {
-                sum += arr[i];
-            }
-        }
-        return true;
+        return (int) low;
     }
 }
