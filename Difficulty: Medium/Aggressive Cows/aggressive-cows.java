@@ -31,30 +31,35 @@ class GFG {
 
 // User function Template for Java
 class Solution {
-    public static int aggressiveCows(int[] stalls, int k) {
-        Arrays.sort(stalls);
-        int low = 1, high = stalls[stalls.length - 1] - stalls[0], result = 0;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (isFeasible(stalls, k, mid)) {
-                result = mid;
-                low = mid + 1;
-            } else {
-                high = mid - 1;
+    public static boolean checkPossible(int[] stalls, long mid, int k){
+        int count = 1;
+        int curr = stalls[0];
+        for(int i = 1;i < stalls.length;i++){
+            if(stalls[i]-curr >= mid){
+                count++;
+                curr = stalls[i];
             }
         }
-        return result;
-    }
-
-    private static boolean isFeasible(int[] stalls, int k, int distance) {
-        int count = 1, lastPos = stalls[0];
-        for (int i = 1; i < stalls.length; i++) {
-            if (stalls[i] - lastPos >= distance) {
-                count++;
-                lastPos = stalls[i];
-                if (count == k) return true;
-            }
+        if(count >= k){
+            return true;
         }
         return false;
     }
+    
+    public static int aggressiveCows(int[] stalls, int k) {
+        // code here
+        Arrays.sort(stalls);
+        long low = 1, high = (long)stalls[stalls.length-1];
+        while(low<=high){
+            long mid = (high + low) / 2;
+            boolean isPossible = checkPossible(stalls, mid, k);
+            if(isPossible){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+        }
+        return (int) high;
+    }
+    
 }
