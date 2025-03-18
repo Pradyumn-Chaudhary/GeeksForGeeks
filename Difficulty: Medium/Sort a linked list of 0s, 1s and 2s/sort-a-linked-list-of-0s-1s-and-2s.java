@@ -33,28 +33,29 @@ class Solution {
     // Function to sort a linked list of 0s, 1s and 2s.
     static Node segregate(Node head) {
         // add your code here
-        int zeroes = 0, ones = 0;
-        Node temp = head;
+        if(head == null || head.next == null)
+        return head;
+        Node zeroHead = new Node(-1);
+        Node oneHead = new Node(-1);
+        Node twoHead = new Node(-1);
+        Node one = oneHead, two = twoHead, zero = zeroHead, temp = head;
         while(temp != null){
-            if(temp.data == 0)
-            zeroes++;
-            else if(temp.data == 1)
-            ones++;
+            if(temp.data == 0){
+                zero.next = temp;
+                zero = temp;
+            }else if(temp.data == 1){
+                one.next = temp;
+                one = temp;
+            }else{
+                two.next = temp;
+                two = temp;
+            }
             temp = temp.next;
         }
-        temp = head;
-        while(zeroes-- > 0){
-            temp.data = 0;
-            temp = temp.next;
-        }
-        while(ones-- > 0){
-            temp.data = 1;
-            temp = temp.next;
-        }
-        while(temp != null){
-            temp.data = 2;
-            temp = temp.next;
-        }
+        zero.next = oneHead.next != null ? oneHead.next : twoHead.next;
+        one.next = twoHead.next;
+        two.next = null;
+        head = zeroHead.next;
         return head;
     }
 }
